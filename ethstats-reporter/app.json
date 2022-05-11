@@ -1,0 +1,74 @@
+[
+    {
+      "name": "signer-1-reporter",
+      "script": "app.js",
+      "log_date_format": "YYYY-MM-DD HH:mm Z",
+      "merge_logs": false,
+      "watch": true,
+      "max_restarts": 10,
+      "exec_interpreter": "node",
+      "exec_mode": "fork_mode",
+      "env": {
+        "NODE_ENV": "development",
+        "RPC_HOST": "signer-1",
+        "RPC_PORT": "8545",
+        "LISTENING_PORT": "30303",
+        "INSTANCE_NAME": "signer-1",
+        "WS_SERVER": "ws://dashboard:3000"
+      }
+    },
+    {
+      "name": "signer-2-reporter",
+      "script": "app.js",
+      "log_date_format": "YYYY-MM-DD HH:mm Z",
+      "merge_logs": false,
+      "watch": true,
+      "max_restarts": 10,
+      "exec_interpreter": "node",
+      "exec_mode": "fork_mode",
+      "env": {
+        "NODE_ENV": "development",
+        "RPC_HOST": "signer-2",
+        "RPC_PORT": "8545",
+        "LISTENING_PORT": "30303",
+        "INSTANCE_NAME": "signer-2",
+        "WS_SERVER": "ws://dashboard:3000"
+      }
+    },
+    {
+      "name": "client-1-reporter",
+      "script": "app.js",
+      "log_date_format": "YYYY-MM-DD HH:mm Z",
+      "merge_logs": false,
+      "watch": true,
+      "max_restarts": 10,
+      "exec_interpreter": "node",
+      "exec_mode": "fork_mode",
+      "env": {
+        "NODE_ENV": "production",
+        "RPC_HOST": "client-1",
+        "RPC_PORT": "8545",
+        "LISTENING_PORT": "30303",
+        "INSTANCE_NAME": "client-1",
+        "WS_SERVER": "ws://dashboard:3000"
+      }
+    },
+    {
+      "name": "client-2-reporter",
+      "script": "app.js",
+      "log_date_format": "YYYY-MM-DD HH:mm Z",
+      "merge_logs": false,
+      "watch": true,
+      "max_restarts": 10,
+      "exec_interpreter": "node",
+      "exec_mode": "fork_mode",
+      "env": {
+        "NODE_ENV": "production",
+        "RPC_HOST": "client-2",
+        "RPC_PORT": "8545",
+        "LISTENING_PORT": "30303",
+        "INSTANCE_NAME": "client-2",
+        "WS_SERVER": "ws://dashboard:3000"
+      }
+    }
+  ]

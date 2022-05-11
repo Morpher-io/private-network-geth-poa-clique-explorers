@@ -1,0 +1,156 @@
+version: "3"
+services:
+  bootnode:
+    hostname: bootnode
+    build:
+      context: ./bootnode
+    environment:
+      NODEKEYHEX: ${NODEKEYHEX}
+  signer-1:
+    hostname: signer-1
+    build:
+      context: ./
+      dockerfile: signer/Dockerfile
+    environment:
+      SIGNERPW: ${SIGNER1_PW}
+      SIGNERKEY: ${SIGNER1_KEY}
+      SIGNERADD: ${SIGNER1_ADD}
+      ENODEPUB: ${ENODEPUB}
+    volumes:
+      - eth-data-1:/app/datadir
+    depends_on:
+      - bootnode
+  signer-2:
+    hostname: signer-2
+    build:
+      context: ./
+      dockerfile: signer/Dockerfile
+    environment:
+      SIGNERPW: ${SIGNER2_PW}
+      SIGNERKEY: ${SIGNER2_KEY}
+      SIGNERADD: ${SIGNER2_ADD}
+      ENODEPUB: ${ENODEPUB}
+    volumes:
+      - eth-data-2:/app/datadir
+    depends_on:
+      - bootnode
+  client-1:
+    hostname: client-1
+    build:
+      context: ./
+      dockerfile: client/Dockerfile
+    environment:
+      ENODEPUB: ${ENODEPUB}
+    ports:
+      - "8545:8545"
+      - "8546:8546"
+    volumes:
+      - eth-data-3:/app/datadir
+    depends_on:
+      - bootnode
+
+  client-2:
+    hostname: client-2
+    build:
+      context: ./
+      dockerfile: client/Dockerfile
+    environment:
+      ENODEPUB: ${ENODEPUB}
+    ports:
+      - "8547:8545"
+      - "8548:8546"
+    volumes:
+      - eth-data-4:/app/datadir
+    depends_on:
+      - bootnode
+
+  explorer:
+    build:
+      context: ./explorer
+    ports:
+      - "8080:8080"
+    environment:
+      PORT: "8080"
+      WEB3PROVIDER: "ws://localhost:8546"
+    depends_on:
+      - bootnode
+      - client-1
+
+  ethereum-lite-explorer:
+    depends_on:
+      - client-1
+    image: alethio/ethereum-lite-explorer
+    environment:
+      - APP_NODE_URL=ws://localhost:8546
+    ports:
+      - "8081:80"
+
+  blockscout:
+    hostname: blockscout
+    depends_on:
+      - client-1
+      - postgres
+    build:
+      context: ./blockscout
+      args:
+        COIN: tETH
+    restart: on-failure
+    env_file:
+      - ./blockscout/common-blockscout.env
+    environment:
+      ETHEREUM_JSONRPC_VARIANT: geth
+      BLOCK_TRANSFORMER: clique
+      ETHEREUM_JSONRPC_HTTP_URL: http://client-1:8545/
+      # ETHEREUM_JSONRPC_WS_URL: wss://sidechain-test-ws.morpher.com:8546
+      DATABASE_URL: postgresql://postgres:@db:5432/blockscout?ssl=false
+      ECTO_USE_SSL: false
+      SUBNETWORK: "MyTest"
+      SECRET_KEY_BASE: VTIB3uHDNbvrY0+60ZWgUoUBKDn9ppLR8MI4CpRz4/qLyEFs54ktJfaNT6Z221No
+
+      DISABLE_EXCHANGE_RATES: true
+      INDEXER_DISABLE_BLOCK_REWARD_FETCHER: true
+      LINK_TO_OTHER_EXPLORERS: true
+      # SUPPORTED_CHAINS: "[]"
+      # APPS_MENU: false
+      # HIDE_FOOTER: true
+      # SHOW_DASHBOARD_GRAPH: false
+    ports:
+      - 8082:4000
+  db:
+    image: postgres:13.6
+    restart: always
+    container_name: 'postgres'
+    environment:
+        POSTGRES_PASSWORD: ''
+        POSTGRES_USER: 'postgres'
+        POSTGRES_HOST_AUTH_METHOD: 'trust'
+    # ports:
+    #   - 7432:5432
+
+  dashboard:
+    hostname: dashboard
+    depends_on:
+      - client-1
+    build:
+      context: ./ethstats-dashboard
+    environment:
+      WS_SECRET: ${WS_SECRET_ETHSTATS}
+    ports:
+     - 8083:3000
+
+  dashboard-stats:
+    depends_on:
+      - dashboard
+    build:
+      context: ./ethstats-reporter
+    environment:
+      WS_SECRET: ${WS_SECRET_ETHSTATS}
+    volumes:
+      - ./ethstats-reporter/app.json:/opt/ethstats/app.json:ro
+
+volumes:
+  eth-data-1:
+  eth-data-2:
+  eth-data-3:
+  eth-data-4:
+  db-data:
