@@ -91,11 +91,11 @@ services:
     depends_on:
       - client-1
       - db
-    image: blockscout
-    # build:
-    #   context: ./blockscout
-    #   args:
-    #     COIN: tETH
+    # image: blockscout
+    build:
+      context: ./blockscout
+      args:
+        COIN: tETH
     restart: on-failure
     env_file:
       - ./blockscout/common-blockscout.env
