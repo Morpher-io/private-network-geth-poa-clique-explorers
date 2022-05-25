@@ -12,4 +12,4 @@ if [ ! -d "$DIR" ]; then
 fi
 sleep 3;
 
-geth --bootnodes enode://${ENODEPUB}@bootnode:30301 --networkid="210" --datadir=/app/datadir --http --http.addr="0.0.0.0" --http.port="8545" --http.corsdomain="*" --http.vhosts="*" --http.api="eth,net,web3" --allow-insecure-unlock --miner.etherbase=$SIGNERADD --mine --unlock $SIGNERADD --password <(echo $SIGNERPW)
+geth --bootnodes "enode://${ENODEPUB_1}@signer-1:30303,enode://${ENODEPUB_2}@signer-2:30303" --networkid="210" --datadir=/app/datadir --http --http.addr="0.0.0.0" --http.port="8545" --http.corsdomain="*" --http.vhosts="*" --http.api="eth,net,web3" --allow-insecure-unlock --miner.etherbase=$SIGNERADD --mine --miner.gasprice 1 --unlock $SIGNERADD --password <(echo $SIGNERPW) -nodekey <(echo ${SIGNERKEY:?NOT SET})
