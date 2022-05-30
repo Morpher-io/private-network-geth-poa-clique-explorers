@@ -5,6 +5,9 @@ if [ ! -d "$DIR" ]; then
   # Take action if $DIR exists. #
   echo "Installing config files in ${DIR}..."
   geth init /app/genesis.json --datadir=/app/datadir
+
+  
+  echo "[\"enode://${ENODEPUB_1}@signer-1:30303\",\"enode://${ENODEPUB_2}@signer-2:30303\"]" > /app/datadir/static-nodes.json
 fi
 sleep 3;
 
