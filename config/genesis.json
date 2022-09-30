@@ -1,6 +1,6 @@
 {
     "config": {
-      "chainId": 210,
+      "chainId": 21000,
       "homesteadBlock": 0,
       "eip150Block": 0,
       "eip155Block": 0,
@@ -25,7 +25,22 @@
     "coinbase": "0x0000000000000000000000000000000000000000",
     "alloc": {
       "0x5AD2d0Ebe451B9bC2550e600f2D2Acd31113053E": {
-          "balance": "0x2000000000000000000000000000000000"
+          "balance": "0x56BC75E2D63100000"
+      },
+      "0x720B9742632566b76B53B60Eee8d5FDC20aC74bE": {
+          "balance": "0x56BC75E2D63100000"
+      },
+      "0x58f0442c8F9C9ecd2a09b9De3f1D834068387304": {
+          "balance": "0x56BC75E2D63100000"
+      },
+      "0x1fdd1bB9AFc69F19ebBF55ceB5153c43b5C5bc1E": {
+          "balance": "0x56BC75E2D63100000"
+      },
+      "0x577Db461Aa1561563AA6a332fbbFb72A338a5546": {
+          "balance": "0x56BC75E2D63100000"
+      },
+      "0xA6c5c9c90910c9C12F31c0eB7997C24dDdc75AFE": {
+          "balance": "0x56BC75E2D63100000"
       }
     },
     "number": "0x0",

@@ -17,6 +17,7 @@ services:
       SIGNERADD: ${SIGNER1_ADD}
       ENODEPUB_1: ${ENODEPUB_1}
       ENODEPUB_2: ${ENODEPUB_2}
+      NETWORK_CHAIN_ID: ${NETWORK_CHAIN_ID}
     volumes:
       - eth-data-1:/app/datadir
   signer-2:
@@ -30,6 +31,7 @@ services:
       SIGNERADD: ${SIGNER2_ADD}
       ENODEPUB_1: ${ENODEPUB_1}
       ENODEPUB_2: ${ENODEPUB_2}
+      NETWORK_CHAIN_ID: ${NETWORK_CHAIN_ID}
     volumes:
       - eth-data-2:/app/datadir
     depends_on:
@@ -42,6 +44,7 @@ services:
     environment:
       ENODEPUB_1: ${ENODEPUB_1}
       ENODEPUB_2: ${ENODEPUB_2}
+      NETWORK_CHAIN_ID: ${NETWORK_CHAIN_ID}
     ports:
       - "8545:8545"
       - "8546:8546"
@@ -49,6 +52,7 @@ services:
       - eth-data-3:/app/datadir
     depends_on:
       - signer-1
+      - signer-2
 
   client-2:
     hostname: client-2
@@ -58,6 +62,7 @@ services:
     environment:
       ENODEPUB_1: ${ENODEPUB_1}
       ENODEPUB_2: ${ENODEPUB_2}
+      NETWORK_CHAIN_ID: ${NETWORK_CHAIN_ID}
     ports:
       - "8547:8545"
       - "8548:8546"
