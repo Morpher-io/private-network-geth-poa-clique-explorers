@@ -4,9 +4,12 @@ DIR="/app/datadir/geth"
 # if [ ! -d "$DIR" ]; then
   # Take action if $DIR exists. #
   echo "Installing config files in ${DIR}..."
-  # sed -i 's/"chainId": 21000/"chainId": '$NETWORK_CHAIN_ID'/' /app/genesis.json
-  # sed -i 's/"extraData": "0x00000000000000000000000000000000000000000000000000000000000000003c1ed3433916f130a7badf8b1ad770cfa2fd03bed96c84c682a298d964f517a61617a8be7cc67f04/"extraData": "0x0000000000000000000000000000000000000000000000000000000000000000'${SIGNERADD/"0x"/""}${SIGNER2ADD/"0x"/""}'/' /app/genesis.json
-  # geth init --datadir=/app/datadir /app/genesis.json 
+  sed -i 's/"chainId": 21000/"chainId": '$NETWORK_CHAIN_ID'/' /app/genesis.json
+  geth init --datadir=/app/datadir /app/genesis.json 
+  sed -i 's|StaticNodes = \[\]|StaticNodes = ["enode://'$ENODEPUB_1'@signer-1:30303","enode://'$ENODEPUB_2'@signer-2:30303"]|' /app/config.toml
+  sed -i 's|BootstrapNodes = \[\]|BootstrapNodes = ["enode://'$ENODEPUB_1'@signer-1:30303","enode://'$ENODEPUB_2'@signer-2:30303"]|' /app/config.toml
+  sed -i 's|BootstrapNodesV5 = \[\]|BootstrapNodesV5 = ["enode://'$ENODEPUB_1'@signer-1:30303","enode://'$ENODEPUB_2'@signer-2:30303"]|' /app/config.toml
+  sed -i 's/NetworkId = 210/NetworkId = '$NETWORK_CHAIN_ID'/' /app/config.toml
   # cat /app/genesis.json
 
   echo ${SIGNER1KEY} > /app/key1

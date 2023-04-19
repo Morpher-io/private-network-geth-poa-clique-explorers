@@ -11,7 +11,6 @@ DIR="/app/datadir/geth"
   sed -i 's|BootstrapNodesV5 = \[\]|BootstrapNodesV5 = ["enode://'$ENODEPUB_1'@signer-1:30303","enode://'$ENODEPUB_2'@signer-2:30303"]|' /app/config.toml
   sed -i 's/NetworkId = 210/NetworkId = '$NETWORK_CHAIN_ID'/' /app/config.toml
   geth init --datadir=/app/datadir /app/genesis.json 
-  cat /app/genesis.json
 
   echo ${SIGNERKEY} > /app/key
   geth account import --datadir=/app/datadir --password <(echo $SIGNERPW) /app/key
