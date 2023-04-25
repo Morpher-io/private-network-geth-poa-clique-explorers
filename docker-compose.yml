@@ -42,6 +42,8 @@ services:
       SIGNER2ADD: ${SIGNER4_ADD}
       ENODEPUB_1: ${ENODEPUB_3}
       ENODEPUB_2: ${ENODEPUB_4}
+      SIGNER1DOMAIN: signer-1
+      SIGNER2DOMAIN: signer-2
       NETWORK_CHAIN_ID: ${NETWORK_CHAIN_ID}
     volumes:
       - eth-data-1:/app/datadir
@@ -59,6 +61,8 @@ services:
       SIGNER2ADD: ${SIGNER3_ADD}
       ENODEPUB_1: ${ENODEPUB_3}
       ENODEPUB_2: ${ENODEPUB_4}
+      SIGNER1DOMAIN: signer-1
+      SIGNER2DOMAIN: signer-2
       NETWORK_CHAIN_ID: ${NETWORK_CHAIN_ID}
     volumes:
       - eth-data-2:/app/datadir

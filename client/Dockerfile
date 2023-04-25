@@ -2,6 +2,7 @@ FROM ethereum/client-go:alltools-latest
 
 WORKDIR /app
 
+COPY ./config/config.toml /app/config.toml
 COPY ./config/genesis.json /app/genesis.json
 
 
