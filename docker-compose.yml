@@ -9,7 +9,10 @@ services:
 
   # migration container. Run this and the keys from SIGNER1 and SIGNER2 will be rotated to SIGNER3 and SIGNER4
   # Don't forget to change the Private keys /addresses from signer-1 and signer-2 as well as client-1 and client-2 respectively
-  # Run it with: docker compose exec migrate-1 geth attach --exec 'loadScript("migrateSigners.js")' datadir/geth.ipc
+  # Bring down the network then 
+  #   Start the container with: docker compose up migrate-1
+  #   Run the script with: docker compose exec migrate-1 geth attach --exec 'loadScript("migrateSigners.js")' datadir/geth.ipc
+  #   Delete all volumes except of volume1 so the signer-2 and clients need to re-sync:
   # migrate-1:
   #   build:
   #     context: ./
