@@ -7,41 +7,44 @@ services:
   #   environment:
   #     NODEKEYHEX: ${NODEKEYHEX}
 
-  migrate-1:
-    build:
-      context: ./
-      dockerfile: migration/Dockerfile
-    environment:
-      SIGNER1PW: ${SIGNER1_PW}
-      SIGNER1KEY: ${SIGNER1_KEY}
-      SIGNER1ADD: ${SIGNER1_ADD}
-      SIGNER2PW: ${SIGNER2_PW}
-      SIGNER2KEY: ${SIGNER2_KEY}
-      SIGNER2ADD: ${SIGNER2_ADD}
-      SIGNER3PW: ${SIGNER3_PW}
-      SIGNER3KEY: ${SIGNER3_KEY}
-      SIGNER3ADD: ${SIGNER3_ADD}
-      SIGNER4PW: ${SIGNER4_PW}
-      SIGNER4KEY: ${SIGNER4_KEY}
-      SIGNER4ADD: ${SIGNER4_ADD}
-      ENODEPUB_1: ${ENODEPUB_1}
-      ENODEPUB_2: ${ENODEPUB_2}
-      NETWORK_CHAIN_ID: ${NETWORK_CHAIN_ID}
-    volumes:
-      - eth-data-1:/app/datadir
-      - ./config/migrateSigners.js:/app/migrateSigners.js
+  # migration container. Run this and the keys from SIGNER1 and SIGNER2 will be rotated to SIGNER3 and SIGNER4
+  # Don't forget to change the Private keys /addresses from signer-1 and signer-2 as well as client-1 and client-2 respectively
+  # Run it with: docker compose exec migrate-1 geth attach --exec 'loadScript("migrateSigners.js")' datadir/geth.ipc
+  # migrate-1:
+  #   build:
+  #     context: ./
+  #     dockerfile: migration/Dockerfile
+  #   environment:
+  #     SIGNER1PW: ${SIGNER1_PW}
+  #     SIGNER1KEY: ${SIGNER1_KEY}
+  #     SIGNER1ADD: ${SIGNER1_ADD}
+  #     SIGNER2PW: ${SIGNER2_PW}
+  #     SIGNER2KEY: ${SIGNER2_KEY}
+  #     SIGNER2ADD: ${SIGNER2_ADD}
+  #     SIGNER3PW: ${SIGNER3_PW}
+  #     SIGNER3KEY: ${SIGNER3_KEY}
+  #     SIGNER3ADD: ${SIGNER3_ADD}
+  #     SIGNER4PW: ${SIGNER4_PW}
+  #     SIGNER4KEY: ${SIGNER4_KEY}
+  #     SIGNER4ADD: ${SIGNER4_ADD}
+  #     ENODEPUB_1: ${ENODEPUB_1}
+  #     ENODEPUB_2: ${ENODEPUB_2}
+  #     NETWORK_CHAIN_ID: ${NETWORK_CHAIN_ID}
+  #   volumes:
+  #     - eth-data-1:/app/datadir
+  #     - ./config/migrateSigners.js:/app/migrateSigners.js
   signer-1:
     hostname: signer-1
     build:
       context: ./
       dockerfile: signer/Dockerfile
     environment:
-      SIGNERPW: ${SIGNER3_PW}
-      SIGNERKEY: ${SIGNER3_KEY}
-      SIGNERADD: ${SIGNER3_ADD}
-      SIGNER2ADD: ${SIGNER4_ADD}
-      ENODEPUB_1: ${ENODEPUB_3}
-      ENODEPUB_2: ${ENODEPUB_4}
+      SIGNERPW: ${SIGNER1_PW}
+      SIGNERKEY: ${SIGNER1_KEY}
+      SIGNERADD: ${SIGNER1_ADD}
+      SIGNER2ADD: ${SIGNER2_ADD}
+      ENODEPUB_1: ${ENODEPUB_1}
+      ENODEPUB_2: ${ENODEPUB_2}
       SIGNER1DOMAIN: signer-1
       SIGNER2DOMAIN: signer-2
       NETWORK_CHAIN_ID: ${NETWORK_CHAIN_ID}
@@ -55,12 +58,12 @@ services:
       context: ./
       dockerfile: signer/Dockerfile
     environment:
-      SIGNERPW: ${SIGNER4_PW}
-      SIGNERKEY: ${SIGNER4_KEY}
-      SIGNERADD: ${SIGNER4_ADD}
-      SIGNER2ADD: ${SIGNER3_ADD}
-      ENODEPUB_1: ${ENODEPUB_3}
-      ENODEPUB_2: ${ENODEPUB_4}
+      SIGNERPW: ${SIGNER2_PW}
+      SIGNERKEY: ${SIGNER2_KEY}
+      SIGNERADD: ${SIGNER2_ADD}
+      SIGNER2ADD: ${SIGNER1_ADD}
+      ENODEPUB_1: ${ENODEPUB_1}
+      ENODEPUB_2: ${ENODEPUB_2}
       SIGNER1DOMAIN: signer-1
       SIGNER2DOMAIN: signer-2
       NETWORK_CHAIN_ID: ${NETWORK_CHAIN_ID}
